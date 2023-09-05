@@ -261,17 +261,18 @@
     }
 
     var scene_cnt = localStorage.getItem('scene_cnt') ? parseInt(localStorage.getItem('scene_cnt')) : 0;
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia(constraints).
-        then(handleSuccess).catch(handleError);
-    } else {
+    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //     navigator.mediaDevices.getUserMedia(constraints).
+    //     then(handleSuccess).catch(handleError);
+    // } else {
         $('#sky').attr('src', imgList[scene_cnt%6])
             .removeAttr('opacity')
             .removeAttr('color');
         scene_cnt++;
         localStorage.setItem('scene_cnt', scene_cnt);
         updateEggPosition();
-    }
+        updateCharacter();
+    // }
     </script>
 </body>
 </html>
