@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>webAr</title>
-    <link rel=icon href=https://wx2.sinaimg.cn/mw690/4d227521ly1fcoq8d7jpzj200g00g743.jpg>
     <script src="./js/aframe.min.js"></script>
     <script src="./js/aframe-animation-component@3.0.1.js"></script>
     <script src="./js/aframe-event-set-component@3.0.1.js"></script>
@@ -32,7 +31,7 @@
                 el.setAttribute('visible', false);
                 data.target.setAttribute('visible', true);
                 setTimeout(function() {
-                    $("#tip").html('恭喜您发现祝福！').fadeIn(300);
+                    $("#characterContainer").fadeIn(300);
                 }, 2000);
                 setTimeout(function() {
                     window.location.href = window.location.href;
@@ -40,6 +39,22 @@
             });
         }
     });
+
+    function updateEggPosition() {
+        // 根据scene_cnt动态计算弧度R
+        var R = (0.1) * 360; // 从0.1*360到0.6*360
+        var r = 8; // 半径
+        var X = Math.sin(R * Math.PI / 180) * r; // x 坐标
+        var Z = Math.cos(R * Math.PI / 180) * r; // 俯视图 z 坐标
+        
+        
+        // 更新#default_egg和#animate_egg的位置
+        $('#default_egg,#animate_egg').attr('position', {
+            x: X,
+            y: 2,
+            z: Z
+        });
+    }
     </script>
     <style>
     #textToDisplay {
@@ -88,6 +103,13 @@
         -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
     }
+
+    #eggImage { 
+        z-index: 100;  /* 设置一个较高的z-index值 */
+    }
+    #characterContainer {
+        z-index: 100;  /* 设置一个较高的z-index值 */
+    }
     </style>
 </head>
 
@@ -95,121 +117,161 @@
     <div id="tip">教师节到了
         <br/>研究院的小伙伴们纷纷呈上了自己的祝福
         <br/>快去看看他们说了什么吧</div>
+
+    <!-- 创建一个flex容器 -->
+    <div id="characterContainer" style="display: none; position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); align-items: center;">
+        <!-- 人物头像 -->
+        <div id="eggImage" style="flex: 0 0 auto; margin-right: 20px;">
+            <img src="./img/person/YH.jpg" alt="Description of the image" width="200">
+        </div>
+        <!-- 人物发言 -->
+        <div id="speech" style="flex: 1; background: rgba(0, 0, 0, .7); color: #fff; padding: 10px; border-radius: 5px;">
+            祝曹老师生日快乐！
+        </div>
+    </div>
+
     <div id="textToDisplay"><img src="./img/ball/egg.png" alt=""></div>
     <a-scene>
-        <!--<a-sky src="./img/bg/1.jpg"></a-sky>-->
         <a-sky id="sky" color="#85b1f7" opacity="0"></a-sky>
-        <a-entity hide-on-click="target:#chickenAnimate">
-            <a-entity id="default_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:html;target:#textToDisplay;transparent:true;fps:0;">
+        <a-entity hide-on-click="target:#chickenAnimate" visivle="true">
+            <!-- <a-entity id="default_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:html;target:#textToDisplay;transparent:true;fps:0;"> -->
+            <a-entity id="default_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:flat;src:./img/ball/egg.png;transparent:true;">
             </a-entity>
         </a-entity>
         <a-entity id="chickenAnimate" visible="false">
             <a-entity id="animate_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:gif;src:url(./img/ball/gift.gif);transparent:true;" gif=""></a-entity>
         </a-entity>
         <!-- Camera + cursor. -->
-        <a-entity camera look-controls>
+        <a-entity camera look-controls="mouseSensitivity: 0.5; touchSensitivity: 0.5">
             <a-cursor id="cursor" material="color: #f287a7" animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150" animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__1="_event: mouseenter; color: green" event-set__2="_event: mouseleave; color: #f287a7"></a-cursor>
         </a-entity>
     </a-scene>
-</body>
-<script>
-var R = Math.random() * 360; // 弧度
-var r = 8; // 半径
-var X = Math.sin(R) * r; // x 坐标
-var Z = Math.cos(R) * r; // 俯视图 z 坐标
 
-$('#default_egg,#animate_egg').attr('position', {
-    x: X,
-    y: 2,
-    z: Z
-});
-</script>
-<script>
-// 全屏时重置视频尺寸
-function onResize() {
-    $('#videoBg').height(window.screen.height)
-        .width('auto');
-}
-window.addEventListener('resize', function() {
-    onResize();
-});
-$("#tip").fadeIn(300).on("click", function() {
-    $("#tip").fadeOut(300);
-})
-setTimeout(function() {
-    onResize();
-}, 1000);
-var egg = new Image();
-egg.src = $("#textToDisplay img")[0].src;
-egg.onload = function() {
+    <script>
+    function loadScene() {
+        // 显示egg.png
+        $("#textToDisplay").show();
+
+        // 确保egg.png的src属性被正确设置
+        var timestamp = new Date().getTime();
+        $("#textToDisplay img").attr("src", "./img/ball/egg.png?" + timestamp);
+    }
+
+    loadScene();
+
+    // 全屏时重置视频尺寸
+    function onResize() {
+        $('#videoBg').height(window.screen.height)
+            .width('auto');
+    }
+    window.addEventListener('resize', function() {
+        onResize();
+    });
+    $("#tip").fadeIn(300).on("click", function() {
+        $("#tip").fadeOut(300);
+        $("#characterContainer").fadeOut(300);
+    })
     setTimeout(function() {
-        $("#textToDisplay").hide();
-        $("a-scene").css({
-            "z-index": "initial",
-            "background": "transparent"
-        })
-    }, 2000)
+        onResize();
+    }, 1000);
+    var egg = new Image();
+    egg.src = $("#textToDisplay img")[0].src;
+    egg.onload = function() {
+        setTimeout(function() {
+            $("#textToDisplay").hide();
+            $("a-scene").css({
+                "z-index": "initial",
+                "background": "transparent"
+            })
+        }, 2000)
+    };
+    setTimeout(function() {
+        $("#tip").fadeOut(300);
+    }, 4000);
 
-}
-setTimeout(function() {
-    $("#tip").fadeOut(300);
-}, 4000);
-// Put variables in global scope to make them available to the browser console.
-var constraints = window.constraints = {
-    audio: false,
-    video: {
-        facingMode: {
-            exact: "environment"
+    var constraints = window.constraints = {
+        audio: false,
+        video: {
+            facingMode: {
+                exact: "environment"
+            }
+        }
+    };
+    var imgList = ["./img/bg/1.jpg", "./img/bg/2.jpg", "./img/bg/3.jpg", "./img/bg/4.jpg", "./img/bg/5.jpg", "./img/bg/6.jpg"];
+    var characters = [
+    {
+        image: "./img/person/YH.jpg",
+        speech: "YH祝曹老师生日快乐！"
+    },
+    {
+        image: "./img/person/HHT.jpg",
+        speech: "HHT祝曹老师生日快乐！"
+    },
+    ];
+    function updateCharacter() {
+        var character = characters[scene_cnt % characters.length];
+        $("#eggImage img").attr("src", character.image);
+        $("#speech").text(character.speech);
+    }
+
+    
+    
+    function handleSuccess(stream) {
+        var videoTracks = stream.getVideoTracks();
+        console.log('Got stream with constraints:', constraints);
+        console.log('Using video device: ' + videoTracks[0].label);
+        stream.oninactive = function() {
+            console.log('Stream inactive');
+        };
+        window.stream = stream; // make variable available to browser console
+
+        $('body').append('<video autoplay id="videoBg"></video>');
+        var video = document.querySelector('video');
+        video.srcObject = stream;
+
+        updateEggPosition();
+        updateCharacter();
+    }
+
+    function handleError(error) {
+        if (error.name === 'ConstraintNotSatisfiedError') {
+            errorMsg('The resolution ' + constraints.video.width.exact + 'x' +
+                constraints.video.width.exact + ' px is not supported by your device.');
+        } else if (error.name === 'PermissionDeniedError') {
+            errorMsg('Permissions have not been granted to use your camera and ' +
+                'microphone, you need to allow the page access to your devices in ' +
+                'order for the demo to work.');
+        }
+        errorMsg('getUserMedia error: ' + error.name, error);
+        $('#sky').attr('src', imgList[scene_cnt%6])
+            .removeAttr('opacity')
+            .removeAttr('color');
+        scene_cnt++;
+        localStorage.setItem('scene_cnt', scene_cnt);
+
+        updateEggPosition();
+        updateCharacter();
+    }
+
+    function errorMsg(msg, error) {
+        console.log(msg);
+        if (typeof error !== 'undefined') {
+            console.error(error);
         }
     }
-};
-var imgList = ["./img/bg/1.jpg", "./img/bg/2.jpg", "./img/bg/3.jpg", "./img/bg/4.jpg", "./img/bg/5.jpg", "./img/bg/6.jpg"];
-function handleSuccess(stream) {
-    var videoTracks = stream.getVideoTracks();
-    console.log('Got stream with constraints:', constraints);
-    console.log('Using video device: ' + videoTracks[0].label);
-    stream.oninactive = function() {
-        console.log('Stream inactive');
-    };
-    window.stream = stream; // make variable available to browser console
 
-    $('body').append('<video autoplay id="videoBg"></video>');
-    var video = document.querySelector('video');
-    video.srcObject = stream;
-}
-
-function handleError(error) {
-    if (error.name === 'ConstraintNotSatisfiedError') {
-        errorMsg('The resolution ' + constraints.video.width.exact + 'x' +
-            constraints.video.width.exact + ' px is not supported by your device.');
-    } else if (error.name === 'PermissionDeniedError') {
-        errorMsg('Permissions have not been granted to use your camera and ' +
-            'microphone, you need to allow the page access to your devices in ' +
-            'order for the demo to work.');
+    var scene_cnt = localStorage.getItem('scene_cnt') ? parseInt(localStorage.getItem('scene_cnt')) : 0;
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia(constraints).
+        then(handleSuccess).catch(handleError);
+    } else {
+        $('#sky').attr('src', imgList[scene_cnt%6])
+            .removeAttr('opacity')
+            .removeAttr('color');
+        scene_cnt++;
+        localStorage.setItem('scene_cnt', scene_cnt);
+        updateEggPosition();
     }
-    errorMsg('getUserMedia error: ' + error.name, error);
-    $('#sky').attr('src', imgList[Math.floor(Math.random() * 6)])
-        .removeAttr('opacity')
-        .removeAttr('color');
-}
-
-function errorMsg(msg, error) {
-    //        alert(msg);
-    console.log(msg);
-    if (typeof error !== 'undefined') {
-        console.error(error);
-    }
-}
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia(constraints).
-    then(handleSuccess).catch(handleError);
-} else {
-    // 不支持调用摄像头的时候，使用默认场景，小树林。
-    // $('#sky').attr('src', imgList[Math.floor(Math.random() * 6)])
-    $('#sky').attr('src', './img/bg/yjy.jpg')
-        .removeAttr('opacity')
-        .removeAttr('color');
-}
-</script>
-
+    </script>
+</body>
 </html>
