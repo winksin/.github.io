@@ -1,278 +1,234 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>webAr</title>
-    <script src="./js/aframe.min.js"></script>
-    <script src="./js/aframe-animation-component@3.0.1.js"></script>
-    <script src="./js/aframe-event-set-component@3.0.1.js"></script>
-    <script src="./js/aframe-layout-component@3.0.1.js"></script>
-    <script src="./js/aframe-html-shader.min.js"></script>
-    <script src="./js/aframe-gif-shader.js"></script>
-    <script src="./js/aframe-look-at-component.min.js"></script>
-    <script src="./js/adapter-latest.js"></script>
-    <script src="./js/zepto.min.js"></script>
-    <script>
-    /* global AFRAME */
-    AFRAME.registerComponent('hide-on-click', {
-        dependencies: ['raycaster'],
-        schema: {
-            target: {
-                type: 'selector'
-            }
-        },
-        init: function() {
-            var data = this.data;
-            var el = this.el;
-            el.setAttribute('visible', true);
-            el.addEventListener('click', function() {
-                el.setAttribute('visible', false);
-                data.target.setAttribute('visible', true);
-                setTimeout(function() {
-                    $("#characterContainer").fadeIn(300);
-                }, 2000);
-                setTimeout(function() {
-                    window.location.href = window.location.href;
-                }, 6000);
-            });
-        }
-    });
-
-    function updateEggPosition() {
-        // 根据scene_cnt动态计算弧度R
-        var R = (0.1) * 360; // 从0.1*360到0.6*360
-        var r = 8; // 半径
-        var X = Math.sin(R * Math.PI / 180) * r; // x 坐标
-        var Z = Math.cos(R * Math.PI / 180) * r; // 俯视图 z 坐标
-        
-        
-        // 更新#default_egg和#animate_egg的位置
-        $('#default_egg,#animate_egg').attr('position', {
-            x: X,
-            y: 2,
-            z: Z
-        });
-    }
-    </script>
-    <style>
-    #textToDisplay {
-        width: 300px;
-        height: 300px;
-        top: 20px;
-        position: absolute;
-        z-index: -1;
-        background: transparent;
-    }
-    
-    body {
-        background: #f287a7;
-    }
-    
-    a-scene {
-        background: #f287a7;
-        z-index: 1;
-    }
-    
-    #videoBg {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: -1;
-    }
-    
-    #tip {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        right: 0;
-        z-index: 77;
-        width: 92%;
-        padding: 20px 0;
-        line-height: 2;
-        text-align: center;
-        background: rgba(0, 0, 0, .7);
-        color: #fff;
-        display: none;
-        margin: auto;
-        font-size: 16px;
-        border-radius: 5px;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    #eggImage { 
-        z-index: 100;  /* 设置一个较高的z-index值 */
-    }
-    #characterContainer {
-        z-index: 100;  /* 设置一个较高的z-index值 */
-    }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="icon" href="./favicon.svg">
+    <title>CJLAB | 低氧有嘻哈 </title>
+    <meta name="description" content="低氧课题组祝曹老师教师节快乐！">
+    <meta name="keywords" content="CJLAB">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" href="./css/swiper.css">
+    <link rel="stylesheet" type="text/css" href="./css/FiraCode.css">
 </head>
 
 <body>
-    <div id="tip">教师节到了
-        <br/>研究院的小伙伴们纷纷呈上了自己的祝福
-        <br/>快去看看他们说了什么吧</div>
+    <!-- 标题板块 -->
+    <div class="title">
+        <img src="./images/bg1.gif" alt="bgGif">
+        <p id="type_title"></p>
+    </div>
 
-    <!-- 创建一个flex容器 -->
-    <div id="characterContainer" style="display: none; position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); align-items: center;">
-        <!-- 人物头像 -->
-        <div id="eggImage" style="flex: 0 0 auto; margin-right: 20px;">
-            <img src="./img/person/YH.jpg" alt="Description of the image" width="200">
+
+    <!-- 分页2 - 时间轴 -->
+    <div class="page page2">
+    <div class="swiper-container swiper-container-my2">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="page2-box">
+                    <img src="./images/GroupPhoto2.jpg" alt="page2-1">
+                    <p><b>故事的开始</b></p>
+                    <p>20XX-XX-XX</p>
+                    <p>我们的故事，从此开始</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="page2-box">
+                    <img src="./images/GroupPhoto3.jpg" alt="page2-1">
+                    <p><b>一起吃蛋糕</b></p>
+                    <p>20XX-XX-XX</p>
+                    <p>那天。。。</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="page2-box">
+                    <img src="./images/GroupPhoto4.jpg" alt="page2-1">
+                    <p><b>一起跨年</b></p>
+                    <p>20XX-XX-XX</p>
+                    <p>那天。。</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="page2-box">
+                    <img src="./images/GroupPhoto5.jpg" alt="page2-1">
+                    <p><b>一起穿上实验服</b></p>
+                    <p>20XX-XX-XX</p>
+                    <p>那天。。</p>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="page2-box">
+                    <img src="./images/GroupPhoto9.jpg" alt="page2-1">
+                    <p><b>一起准备party</b></p>
+                    <p>20XX-XX-XX</p>
+                    <p>那天。。</p>
+                </div>
+            </div>
         </div>
-        <!-- 人物发言 -->
-        <div id="speech" style="flex: 1; background: rgba(0, 0, 0, .7); color: #fff; padding: 10px; border-radius: 5px;">
-            祝曹老师生日快乐！
+        <div class="swiper-pagination swiper-pagination-my2"></div>
+    </div>
+</div>
+
+    <!-- 分页3 - 一段话 -->
+    <div class="page page3">
+        <div id="words2teacher">
+            <b>回顾上一个教师节</b>
+            <br />
+            老师，记得去年教师节的那天，你为我们准备了一个特别的组会，那天不仅仅是让我们学习书本知识，更是让我们体验到了生活的真谛。我本以为那只是个普通的一个组会，结果是一堂充满哲理和启发的课。那天的感触，仿佛还在耳边回响。
+            <br />
+            <br />
+            <b>这是我们共度的又一个教师节</b>
+            <br />
+            老师，我们可能不是那种特别会说甜言蜜语的学生，但我们想用自己的方式，向您表达我们的感激之情。去年的那次组会，真的让我们认识到了人生的很多真谛。您的每一个努力，每一次为我们付出，我们都看在眼里，感激在心。
+            <br />
+            生活中的很多细节，因为您，我们才开始留意。您不仅是我们的老师，还是我们生活中的指路人。
+            <br />
+            和您在一起的每一刻，都充满了温暖和知识的滋养，即使有时候我们顽皮捣蛋，您也总是笑脸相对，包容我们的每一个小过错。
+            <br />
+            <br />
+            <b>我们相信</b>
+            <br />
+            在未来的日子里，不论我走到哪里，您教导的知识和人生哲理都会伴随我们左右。有时候，真的想对您说太多的感谢的话，但又觉得任何语言都显得苍白无力。
+            <br />
+            所以，我们只想说，老师，您辛苦了，愿您的生活如您为我们展现的那片星空，璀璨而充满希望。
+            <br />
+            教师节快乐！
+            <br />
+            ## 低氧课题组全体成员
         </div>
     </div>
 
-    <div id="textToDisplay"><img src="./img/ball/egg.png" alt=""></div>
-    <a-scene>
-        <a-sky id="sky" color="#85b1f7" opacity="0"></a-sky>
-        <a-entity hide-on-click="target:#chickenAnimate" visivle="true">
-            <!-- <a-entity id="default_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:html;target:#textToDisplay;transparent:true;fps:0;"> -->
-            <a-entity id="default_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:flat;src:./img/ball/egg.png;transparent:true;">
-            </a-entity>
-        </a-entity>
-        <a-entity id="chickenAnimate" visible="false">
-            <a-entity id="animate_egg" geometry="primitive:plane;width:2;height:2;" look-at="[camera]" position="-3 2 -10" material="shader:gif;src:url(./img/ball/gift.gif);transparent:true;" gif=""></a-entity>
-        </a-entity>
-        <!-- Camera + cursor. -->
-        <a-entity camera look-controls="mouseSensitivity: 0.1; touchSensitivity: 0.1">
-            <a-cursor id="cursor" material="color: #f287a7" animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150" animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__1="_event: mouseenter; color: green" event-set__2="_event: mouseleave; color: #f287a7"></a-cursor>
-        </a-entity>
-    </a-scene>
+    <!-- 分页4 - 结尾 -->
+    <div class="page page4">
+        <div class="page4-box">
+            <div class="page4-img">
+                <div class="swiper-container swiper-container-my3">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="./images/CBY.jpg" alt="CBY">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/CWB.jpg" alt="CWB">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/CXK.jpg" alt="CXK">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/CXR.jpg" alt="CXR">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/FYZ.jpg" alt="FYZ">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/GXM.jpg" alt="GXM">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/GY.jpg" alt="GY">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/HCG.jpg" alt="HCG">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/HHT.jpg" alt="HHT">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/KL.jpg" alt="KL">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/LB.jpg" alt="LB">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/LKL.jpg" alt="LKL">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/LL.jpg" alt="LL">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/LMS.jpg" alt="LMS">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/LYS.jpg" alt="LYS">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/QXX.jpg" alt="QXX">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/SYY.jpg" alt="SYY">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/WWH.jpg" alt="WWH">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/YH.jpg" alt="YH">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/ZHY.jpg" alt="ZHY">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/ZJH.jpg" alt="ZJH">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/ZMY.jpg" alt="ZMY">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/ZYH.jpg" alt="ZYH">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="./images/ZZC.jpg" alt="ZZC">
+                        </div>                        
+                    </div>
+                    <div class="swiper-button-prev swiper-button-prev-my3"></div>
+                    <div class="swiper-button-next swiper-button-next-my3"></div>
+                </div>
+            </div>
+            <div class="page4-text">
+                <h1>师恩荫下</h1>
+                <p>🌱树苗成长</p>
+            </div>
+        </div>
 
+        <div class="footer">
+            <div class="footerBox">
+                <p>
+                    &copy; 2023
+                    <a href="http://caolab.cn/">CJLAB</a> | 低氧课题组
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- js加载 -->
+    <script src="https://cdn.bootcss.com/wow/1.1.2/wow.js"></script>
+    <script src="./js/typeit.min.js"></script>
+    <script src="./js/swiper-3.4.2.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.js"></script>
+
+    <script src="./js/talk.js"></script>
+    <script src="./js/swiper.js"></script>
+    <script src="./js/su.js"></script>
     <script>
-    function loadScene() {
-        // 显示egg.png
-        $("#textToDisplay").show();
+        (function () {
+            new WOW().init()
+        })()
+    </script>
 
-        // 确保egg.png的src属性被正确设置
-        var timestamp = new Date().getTime();
-        $("#textToDisplay img").attr("src", "./img/ball/egg.png?" + timestamp);
-    }
-
-    loadScene();
-
-    // 全屏时重置视频尺寸
-    function onResize() {
-        $('#videoBg').height(window.screen.height)
-            .width('auto');
-    }
-    window.addEventListener('resize', function() {
-        onResize();
-    });
-    $("#tip").fadeIn(300).on("click", function() {
-        $("#tip").fadeOut(300);
-        $("#characterContainer").fadeOut(300);
-    })
-    setTimeout(function() {
-        onResize();
-    }, 1000);
-    var egg = new Image();
-    egg.src = $("#textToDisplay img")[0].src;
-    egg.onload = function() {
-        setTimeout(function() {
-            $("#textToDisplay").hide();
-            $("a-scene").css({
-                "z-index": "initial",
-                "background": "transparent"
-            })
-        }, 2000)
-    };
-    setTimeout(function() {
-        $("#tip").fadeOut(300);
-    }, 4000);
-
-    var constraints = window.constraints = {
-        audio: false,
-        video: {
-            facingMode: {
-                exact: "environment"
-            }
-        }
-    };
-    var imgList = ["./img/bg/1.jpg", "./img/bg/2.jpg", "./img/bg/3.jpg", "./img/bg/4.jpg", "./img/bg/5.jpg", "./img/bg/6.jpg"];
-    var characters = [
-    {
-        image: "./img/person/YH.jpg",
-        speech: "YH祝曹老师生日快乐！"
-    },
-    {
-        image: "./img/person/HHT.jpg",
-        speech: "HHT祝曹老师生日快乐！"
-    },
-    ];
-    function updateCharacter() {
-        var character = characters[scene_cnt % characters.length];
-        $("#eggImage img").attr("src", character.image);
-        $("#speech").text(character.speech);
-    }
-
-    
-    
-    function handleSuccess(stream) {
-        var videoTracks = stream.getVideoTracks();
-        console.log('Got stream with constraints:', constraints);
-        console.log('Using video device: ' + videoTracks[0].label);
-        stream.oninactive = function() {
-            console.log('Stream inactive');
-        };
-        window.stream = stream; // make variable available to browser console
-
-        $('body').append('<video autoplay id="videoBg"></video>');
-        var video = document.querySelector('video');
-        video.srcObject = stream;
-
-        updateEggPosition();
-        updateCharacter();
-    }
-
-    function handleError(error) {
-        if (error.name === 'ConstraintNotSatisfiedError') {
-            errorMsg('The resolution ' + constraints.video.width.exact + 'x' +
-                constraints.video.width.exact + ' px is not supported by your device.');
-        } else if (error.name === 'PermissionDeniedError') {
-            errorMsg('Permissions have not been granted to use your camera and ' +
-                'microphone, you need to allow the page access to your devices in ' +
-                'order for the demo to work.');
-        }
-        errorMsg('getUserMedia error: ' + error.name, error);
-        $('#sky').attr('src', imgList[scene_cnt%6])
-            .removeAttr('opacity')
-            .removeAttr('color');
-        scene_cnt++;
-        localStorage.setItem('scene_cnt', scene_cnt);
-
-        updateEggPosition();
-        updateCharacter();
-    }
-
-    function errorMsg(msg, error) {
-        console.log(msg);
-        if (typeof error !== 'undefined') {
-            console.error(error);
-        }
-    }
-
-    var scene_cnt = localStorage.getItem('scene_cnt') ? parseInt(localStorage.getItem('scene_cnt')) : 0;
-    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    //     navigator.mediaDevices.getUserMedia(constraints).
-    //     then(handleSuccess).catch(handleError);
-    // } else {
-        $('#sky').attr('src', imgList[scene_cnt%6])
-            .removeAttr('opacity')
-            .removeAttr('color');
-        scene_cnt++;
-        localStorage.setItem('scene_cnt', scene_cnt);
-        updateEggPosition();
-        updateCharacter();
-    // }
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('body').wpSuperSnow({
+                flakes: ['./images/004.png', './images/003.png', 
+                        './images/002.png','./images/001.png'
+                ],
+                totalFlakes: '100',
+                zIndex: '999999',
+                maxSize: '30',
+                maxDuration: '20',
+                useFlakeTrans: false
+            });
+        });
     </script>
 </body>
+
 </html>
