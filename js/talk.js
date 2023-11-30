@@ -8,7 +8,7 @@ new TypeIt("#type_title", {
     .delete(null, {
         delay: 500
     })
-    .type("祝曹老师教师节快乐！")
+    .type("祝曹老师生日快乐！")
     .pause(3000)
     .go();
 
